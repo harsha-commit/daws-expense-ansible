@@ -1,6 +1,9 @@
 - name: Configure Backend Server
   hosts: backend
   become: yes
+  vars:
+    MY_SQL_PASSWORD: ExpenseApp@1
+    LOGIN_HOST: db.harshadevops.site
   tasks:
     - name: Disable default nodejs
       ansible.builtin.command: dnf module disable nodejs -y
@@ -32,3 +35,29 @@
         src: /tmp/backend.zip
         dest: /app
         remote_src: yes
+
+    - name: Install Dependencies
+      ansible.builtin.command: npm install
+      args:
+        chdir: /app
+
+    - name: Copy backend.service
+      ansible.builtin.copy:
+        src: backend.service
+        dest: /etc/systemd/system/backend.service
+
+    - name: Install Python MySQL Dependencies
+      ansible.builtin.pip:
+        name:
+          - PyMySQL
+          - cryptography
+        executable: pip3.9
+
+    - name: Import data into mysql
+      community.mysql.mysql_db: # connect (login details) + dump
+        login_host: "{{ LOGIN_HOST }}"
+        login_password: "{{ MY_SQL_PASSWORD }}"
+        login_user: root
+        target: /app/schema/backend.sql
+        state: import
+        name: all
