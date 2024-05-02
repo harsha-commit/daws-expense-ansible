@@ -37,4 +37,4 @@
 
     - name: Set MySQL DB Password
       ansible.builtin.command: mysql_secure_installation --set-root-pass {{ MY_SQL_PASSWORD }}
-      when: mysql_connection_output.failed is true
+      when: mysql_connection_output.failed is true ## DO NOT GIVE {{}} in when condition
