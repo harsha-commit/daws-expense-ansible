@@ -53,6 +53,11 @@
           - cryptography
         executable: pip3.9
 
+    - name: Install mysql
+      ansible.builtin.dnf:
+        name: mysql
+        state: installed
+
     - name: Import data into mysql
       community.mysql.mysql_db: # connect (login details) + dump
         login_host: "{{ LOGIN_HOST }}"
