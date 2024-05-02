@@ -1,0 +1,14 @@
+- name: Delete app directory
+  ansible.builtin.file:
+    path: "{{ app_location }}"
+    state: absent
+
+- name: Create app directory
+  ansible.builtin.file:
+    path: "{{ app_location }}"
+    state: directory
+
+- name: Download backend code
+  ansible.builtin.get_url:
+    url: https://expense-builds.s3.us-east-1.amazonaws.com/expense-backend-v2.zip
+    dest: /tmp/backend.zip

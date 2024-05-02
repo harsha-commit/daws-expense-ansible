@@ -13,10 +13,10 @@
   ansible.builtin.user:
     name: expense
 
-- name: Create app directory
-  ansible.builtin.file:
-    path: /app
-    state: directory
+- name: Run app prerequisites
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: app-preq
 
 - name: Download backend code
   ansible.builtin.get_url:

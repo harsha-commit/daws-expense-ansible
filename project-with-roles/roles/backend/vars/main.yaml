@@ -1,3 +1,4 @@
 MY_SQL_PASSWORD: ExpenseApp@1
 LOGIN_HOST: db.harshadevops.site
 DB_HOST: db.harshadevops.site
+app_location: /app
