@@ -3,6 +3,7 @@
   become: yes
   vars:
     MY_SQL_PASSWORD: ExpenseApp@1
+    LOGIN_HOST: db.harshadevops.site
   tasks:
     - name: Install mysql-server
       ansible.builtin.dnf:
@@ -15,9 +16,16 @@
         state: started
         enabled: yes
 
+    - name: Install Python MySQL Dependencies
+      ansible.builtin.pip:
+        name:
+          - PyMySQL
+          - cryptography
+
     - name: Checking DB connection to verify if password is already set
       community.mysql.mysql_info:
         login_user: root
         login_password: "{{ MY_SQL_PASSWORD }}"
-        login_host: db.harshadevops.site
+        login_host: "{{ LOGIN_HOST }}"
       ignore_errors: true
+      register: mysql_connection_output
