@@ -21,6 +21,7 @@
         name:
           - PyMySQL
           - cryptography
+        executable: pip3.9
 
     - name: Checking DB connection to verify if password is already set
       community.mysql.mysql_info:
