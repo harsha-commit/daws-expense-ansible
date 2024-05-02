@@ -1,0 +1,22 @@
+- name: Configure DB Server
+  hosts: db
+  become: yes
+  vars:
+    MY_SQL_PASSWORD: ExpenseApp@1
+  tasks:
+    - name: Install mysql-server
+      ansible.builtin.dnf:
+        name: mysql-server
+        state: installed
+
+    - name: Enable and Start mysql-server
+      ansible.builtin.service:
+        name: mysqld
+        state: started
+        enabled: yes
+
+    - name: Checking DB connection to verify if password is already set
+      community.mysql.mysql_info:
+        login_user: root
+        login_password: "{{ MY_SQL_PASSWORD }}"
+        login_host: db.harshadevops.site
